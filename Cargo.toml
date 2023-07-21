@@ -1,0 +1,40 @@
+[package]
+name = "shade"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+needletail = "0.5.0"
+simple_logger=  { version = "3", features = ["stderr"] }
+log = "0"
+rayon = "1"
+smallvec = { version = "1", features = ["union","serde","write"] }
+serde = { version = "1", features = ["derive"] }
+bincode = "1"
+fxhash = "0"
+clap = { version = "3", features = ["derive"] }
+flate2 = { version = "1.0.17", features = ["zlib-ng"], default-features = false }
+
+[target.'cfg(target_env = "musl")'.dependencies]
+tikv-jemallocator = "0"
+
+
+[dev-dependencies]
+assert_cmd = "1.0.1"
+predicates = "1"
+serial_test = "*"
+
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[profile.dev]
+#opt-level = 1
+opt-level = 3
+
+#[rust]
+#debuginfo-level = 1
