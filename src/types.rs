@@ -27,6 +27,7 @@
 //
 //
 use serde::{Deserialize, Serialize};
+use fxhash::*;
 pub type Kmer = u64;
 pub const  DNA_TO_AA: [u8; 64] =
             *b"KNKNTTTTRSRSIIMIQHQHPPPPRRRRLLLLEDEDAAAAGGGGVVVV*Y*YSSSS*CWCLFLF";
@@ -45,10 +46,51 @@ pub const BYTE_TO_SEQ: [u32; 256] = [
 
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 #[derive(Default, Clone)]
+pub struct ShadeRefIndex{
+    pub inv_table: FxHashMap<Kmer,Vec<u32>>,
+    pub file_name: String,
+    pub contig_names: Vec<String>,
+    pub w: usize,
+    pub k :usize,
+    pub lens: Vec<usize>
+}
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Default, Clone)]
+pub struct ShadeRefIndexEncode{
+    pub vec_table: Vec<(Kmer,Vec<u32>)>,
+    pub file_name: String,
+    pub contig_names: Vec<String>,
+    pub w: usize,
+    pub k :usize,
+    pub lens: Vec<usize>
+}
+
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Default, Clone)]
 pub struct RefSequenceIndex{
     pub genome_kmers: Vec<Kmer>,
     pub file_name: String,
     pub first_contig_name: String,
     pub w: usize,
     pub k: usize,
+    pub len: usize,
+}
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Default, Clone)]
+pub struct ReadsIndex{
+    pub read_kmers: Vec<(Vec<Kmer>,u32)>,
+    pub file_name: String,
+    pub w: usize,
+    pub k: usize,
+}
+
+#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Default, Clone)]
+pub struct ReadRefMappings{
+    pub equiv_class_matrix: FxHashMap<Vec<u32>, f64>,
+    pub read_index: usize,
+    pub ref_index: usize,
 }

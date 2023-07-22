@@ -36,6 +36,10 @@ pub struct IndexArgs {
     pub first_pair: Vec<String>,
     #[clap(short='2',long="second-pair", multiple=true, help_heading = "INPUT", help = "Second pairs in paried end reads e.g. S1_2.fq S2_2.fq")]
     pub second_pair: Vec<String>,
+    #[clap(long)]
+    pub fmh: bool,
+    #[clap(long)]
+    pub window_sync: bool,
 }
 
 #[derive(Args)]
