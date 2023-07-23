@@ -90,7 +90,10 @@ pub struct ReadsIndex{
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 #[derive(Default, Clone)]
 pub struct ReadRefMappings{
+    pub number_of_refs: usize,
     pub equiv_class_matrix: FxHashMap<Vec<u32>, f64>,
     pub read_index: usize,
     pub ref_index: usize,
+    pub number_of_bases_mapped: usize,
 }
+

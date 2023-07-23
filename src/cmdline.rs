@@ -26,7 +26,7 @@ pub struct IndexArgs {
     pub individual: bool,
     #[clap(short, default_value_t = 21,help_heading = "ALGORITHM", help ="")]
     pub k: usize,
-    #[clap(short, default_value_t = 60, help_heading = "ALGORITHM", help = "")]
+    #[clap(short, default_value_t = 40, help_heading = "ALGORITHM", help = "")]
     pub w: usize,
     #[clap(short,long, default_value_t = 3, help = "Number of threads")]
     pub threads: usize,

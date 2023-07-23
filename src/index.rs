@@ -192,19 +192,12 @@ fn sketch_genome_individual(
                 }
 
                 let mut kmer_set = FxHashSet::default();
-                let mut duplicate_set = FxHashSet::default();
                 let mut new_vec = Vec::with_capacity(kmer_vec.len());
                 for km in kmer_vec.iter() {
                     if !kmer_set.contains(&km) {
+                        new_vec.push(*km);
                         kmer_set.insert(km);
-                    } else {
-                        duplicate_set.insert(km);
-                    }
-                }
-                for kmer in kmer_vec.iter(){
-                    if !duplicate_set.contains(&kmer){
-                        new_vec.push(*kmer);
-                    }
+                    } 
                 }
                 return_genome_sketch.genome_kmers = new_vec;
                 return_vec.push(return_genome_sketch);
