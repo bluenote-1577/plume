@@ -95,5 +95,6 @@ pub struct ReadRefMappings{
     pub read_index: usize,
     pub ref_index: usize,
     pub number_of_bases_mapped: usize,
+    pub number_of_bases_total: usize,
 }
 

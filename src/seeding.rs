@@ -156,7 +156,7 @@ pub fn window_sync_seeds(string: &[u8], minimizer_w: usize, k: usize, kmer_vec: 
         rolling_kmer_f_marker &= marker_mask;
 
         if i >= w + s - k - 1{
-            let old_nuc_r = 3 - BYTE_TO_SEQ[string[(i + k + 1 - s - w)] as usize] as u64;
+            let old_nuc_r = 3 - BYTE_TO_SEQ[string[i + k + 1 - s - w] as usize] as u64;
             rolling_kmer_r_marker >>= 2;
             rolling_kmer_r_marker &= marker_rev_mask;
             rolling_kmer_r_marker |= old_nuc_r << marker_reverse_shift_dist;

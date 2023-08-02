@@ -6,3 +6,4 @@ pub const MEDIAN_ANI_THRESHOLD: f64 = 2.;
 pub const MINIMUM_COUNT_RATIO: f64 = 3.;
 pub const QUERY_FILE_SUFFIX: &str = ".sylqueries";
 pub const SAMPLE_FILE_SUFFIX: &str = ".sylsample";
+pub const LEN_SUPP_CUTOFF:usize  = 1000;

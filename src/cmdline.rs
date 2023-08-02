@@ -20,10 +20,10 @@ pub enum Mode {
 pub struct IndexArgs {
     #[clap(multiple=true, help = "")]
     pub files: Vec<String>,
-    #[clap(short,long,default_value = "reference_index", help_heading = "OUTPUT", help = "")]
-    pub reference_prefix: String,
-    #[clap(short,long="individual-records", help_heading = "INPUT", help = "Use individual records (e.g. contigs) as queries instead")]
-    pub individual: bool,
+    #[clap(short,long, default_value = "", help_heading = "OUTPUT", help = "If specified, output indices will have this string as an attached prefix.")]
+    pub prefix: String,
+    #[clap(short,long="genome-mode", help_heading = "INPUT", help = "Treat each fasta file as a genome and output a single index with each genome contained. File will be named <prefix>genomes_combined.shref where prefix is specied by -p/--prefix")]
+    pub genome_mode: bool,
     #[clap(short, default_value_t = 21,help_heading = "ALGORITHM", help ="")]
     pub k: usize,
     #[clap(short, default_value_t = 40, help_heading = "ALGORITHM", help = "")]
@@ -36,10 +36,13 @@ pub struct IndexArgs {
     pub first_pair: Vec<String>,
     #[clap(short='2',long="second-pair", multiple=true, help_heading = "INPUT", help = "Second pairs in paried end reads e.g. S1_2.fq S2_2.fq")]
     pub second_pair: Vec<String>,
-    #[clap(long)]
+    #[clap(long, help_heading="ALGORITHM", help = "Use FracMinHash seeds instead of minimizer seeds, at the same density")]
     pub fmh: bool,
-    #[clap(long)]
+    #[clap(long, help_heading="ALGORITHM", help = "Use open syncmer seeds instead of minimizer seeds, at the same density")]
     pub window_sync: bool,
+    #[clap(short,long="list", multiple=true, help_heading = "INPUT", help = "Input files in a list instead of in the command line.")]
+    pub list: Option<String>,
+
 }
 
 #[derive(Args)]
@@ -50,4 +53,6 @@ pub struct QuantArgs {
     pub threads: usize,
     #[clap(long="trace", help = "Trace output for debugging")]
     pub trace: bool,
+    #[clap(short,long="relative-abundance", help_heading = "OUTPUT", help = "Output relative abundances instead of coverages.")]
+    pub relative_abundance: bool,
 }
