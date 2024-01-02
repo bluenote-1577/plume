@@ -22,11 +22,11 @@ pub struct IndexArgs {
     pub files: Vec<String>,
     #[clap(short,long, default_value = "", help_heading = "OUTPUT", help = "If specified, output indices will have this string as an attached prefix.")]
     pub prefix: String,
-    #[clap(short,long="genome-mode", help_heading = "INPUT", help = "Treat each fasta file as a genome and output a single index with each genome contained. File will be named <prefix>genomes_combined.shref where prefix is specied by -p/--prefix")]
+    #[clap(short,long="genome-mode", help_heading = "INPUT", help = "Treat each fasta file as a genome and output a single index with each genome contained. File will be named <prefix>genomes_combined.plref where prefix is specied by -p/--prefix")]
     pub genome_mode: bool,
-    #[clap(short, default_value_t = 21,help_heading = "ALGORITHM", help ="")]
+    #[clap(short, default_value_t = 16,help_heading = "ALGORITHM", help ="")]
     pub k: usize,
-    #[clap(short, default_value_t = 40, help_heading = "ALGORITHM", help = "")]
+    #[clap(short, default_value_t = 20, help_heading = "ALGORITHM", help = "")]
     pub w: usize,
     #[clap(short,long, default_value_t = 3, help = "Number of threads")]
     pub threads: usize,

@@ -1,4 +1,6 @@
 use crate::cmdline::*;
+use smallvec::*;
+use std::sync::Mutex;
 use std::io::BufRead;
 use std::time::Instant;
 use std::fs::File;
@@ -10,6 +12,7 @@ use log::*;
 use rayon::prelude::*;
 use needletail::parse_fastx_file;
 use crate::seeding::*;
+use crate::constants::*;
 
 pub fn index(args: IndexArgs){
 
@@ -120,7 +123,7 @@ fn encode_and_dump(args: &IndexArgs, index: Vec<RefSequenceIndex>, ref_file: &st
     let mut k = 0;
     for (i,ref_ind) in index.into_iter().enumerate(){
         for kmer in ref_ind.genome_kmers{
-            let ref_corresp = table_ind.entry(kmer).or_insert(vec![]);
+            let ref_corresp = table_ind.entry(kmer).or_insert(smallvec![]);
             ref_corresp.push(i as u32);
         }
         contig_names.push(ref_ind.first_contig_name);
@@ -129,26 +132,28 @@ fn encode_and_dump(args: &IndexArgs, index: Vec<RefSequenceIndex>, ref_file: &st
         w = ref_ind.w;
         k = ref_ind.k;
     }
-    let vec_table : Vec<(Kmer,Vec<u32>)> = table_ind.into_iter().collect();
+    let vec_table : Vec<(Kmer,SmallVec<[u32;1]>)> = table_ind.into_iter().collect();
     let enc = ShadeRefIndexEncode{ vec_table, file_name, contig_names, w, k, lens};
 
-    let dump_str = format!("{}{}.shref",args.prefix,ref_file); 
+    let dump_str = format!("{}{}.{}",args.prefix,ref_file, REF_IND_SUFFIX); 
     let mut read_sk_file = BufWriter::new(
         File::create(&dump_str)
             .expect(&format!("{} path not valid, exiting.", dump_str)),
     );
     bincode::serialize_into(&mut read_sk_file, &enc).unwrap();
+    log::info!("Finished indexing references at {}", &dump_str);
 
 }
 
 
 fn dump_read_indices(args: &IndexArgs, index: ReadsIndex, read_file: &str){
-    let dump_str = format!("{}{}.shread", args.prefix, read_file); 
+    let dump_str = format!("{}{}.{}", args.prefix, read_file, READ_IND_SUFFIX); 
     let mut read_sk_file = BufWriter::new(
         File::create(&dump_str)
             .expect(&format!("{} path not valid, exiting.", dump_str)),
     );
     bincode::serialize_into(&mut read_sk_file, &index).unwrap();
+    log::info!("Finished indexing reads at {}", &dump_str);
 }
 
 fn sketch_paired_reads(
@@ -338,8 +343,8 @@ fn sketch_genome_all(
     ref_files: &Vec<String>,
     args: &IndexArgs
 ) -> Option<Vec<RefSequenceIndex>> {
-    let mut return_vec = vec![];
-    for ref_file in ref_files.iter(){
+    let return_vec = Mutex::new(vec![]);
+    ref_files.par_iter().for_each(|ref_file| {
         let mut return_genome_sketch = RefSequenceIndex::default();
         return_genome_sketch.w = w;
         return_genome_sketch.k = k;
@@ -382,9 +387,9 @@ fn sketch_genome_all(
         }
         return_genome_sketch.genome_kmers = new_vec;
 
-        return_vec.push(return_genome_sketch);
-    }
-    return Some(return_vec);
+        return_vec.lock().unwrap().push(return_genome_sketch);
+    });
+    return Some(return_vec.into_inner().expect("Could not unlock mutex while multiprocessing sketching"));
 }
 
 pub fn is_fastq(file: &str) -> bool {

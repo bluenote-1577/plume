@@ -37,13 +37,13 @@ pub fn quant(args: QuantArgs){
     let mut read_index_files = vec![];
 
     for file in args.files.iter() {
-        if file.ends_with(".shref") {
+        if file.ends_with(REF_IND_SUFFIX) {
             ref_index_files.push(file);
-        } else if file.ends_with(".shread") {
+        } else if file.ends_with(READ_IND_SUFFIX) {
             read_index_files.push(file);
         } else {
             warn!(
-                "{} file extension is not a shade sketch.",
+                "{} file extension is not a plume index.",
                 &file
             );
         }

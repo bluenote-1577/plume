@@ -1,7 +1,7 @@
 use clap::Parser;
-use shade::cmdline::*;
-use shade::index;
-use shade::quant;
+use plume::cmdline::*;
+use plume::index;
+use plume::quant;
 
 //Use this allocator when statically compiling
 //instead of the default

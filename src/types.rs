@@ -28,6 +28,7 @@
 //
 use serde::{Deserialize, Serialize};
 use fxhash::*;
+use smallvec::SmallVec;
 pub type Kmer = u64;
 pub const  DNA_TO_AA: [u8; 64] =
             *b"KNKNTTTTRSRSIIMIQHQHPPPPRRRRLLLLEDEDAAAAGGGGVVVV*Y*YSSSS*CWCLFLF";
@@ -47,7 +48,7 @@ pub const BYTE_TO_SEQ: [u32; 256] = [
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 #[derive(Default, Clone)]
 pub struct ShadeRefIndex{
-    pub inv_table: FxHashMap<Kmer,Vec<u32>>,
+    pub inv_table: FxHashMap<Kmer,SmallVec<[u32;1]>>,
     pub file_name: String,
     pub contig_names: Vec<String>,
     pub w: usize,
@@ -58,7 +59,7 @@ pub struct ShadeRefIndex{
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 #[derive(Default, Clone)]
 pub struct ShadeRefIndexEncode{
-    pub vec_table: Vec<(Kmer,Vec<u32>)>,
+    pub vec_table: Vec<(Kmer,SmallVec<[u32;1]>)>,
     pub file_name: String,
     pub contig_names: Vec<String>,
     pub w: usize,
