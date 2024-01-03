@@ -18,12 +18,16 @@ Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmo
 2. Long-read aware pseudoalignment 
 3. Optimized parameters for metagenomics
 
-#### Performance
+#### Performance - speed
 
 * CoverM (with minimap2) took about **10 minutes (with 4 threads)** to quantify a metagenome against 180 genomes.
 * Plume took **2 minutes to index, but 20 seconds (with 4 threads)** to quantify the same metagenome.
 
 I estimate that plume ranges from 1-5x faster (one-to-one coverage calculation) to 10x faster (all-to-all) than minimap2 for coverage calculation; it will depend on how much mapping vs indexing you need. Performance will also change as I optimize/tweak.
+
+#### Performance - accuracy
+
+More results incoming. Preliminary visual results seems to show that it's comparable. I get similar results for binning human gut metagenomes. 
 
 ## Quick start
 
