@@ -72,11 +72,10 @@ plume quant -r *.plref *.plreads > abund.tsv
 The output is a TSV file that looks like the following:
 
 ```
-Genome_or_contigs	sample1.fq.plreads  smaple2.fq.plreads
-temp/GCA_900542375.1_genomic.fna	0.0486	0.0182
-temp/GCF_003865035.1_genomic.fna	1.4225	0.0167
-temp/GCA_000020605.1_genomic.fna	0.3205	0.0111
-temp/GCF_000313565.1_genomic.fna	0.0153	0.0258
+Reference_file	Genome_or_contigs	sample1.fastq.gz.plreads	sample2.fastq.gz.plreads
+temp.fa.plref	GG662017.1	0.0000	0.0000
+temp.fa.plref	GG662016.1	0.0000	0.3170
+temp.fa.plref	GG662015.1	0.0000	0.0000
 ```
 
 ## Citation
