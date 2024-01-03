@@ -12,7 +12,7 @@ The inputs/outputs of plume are similar to [CoverM](https://github.com/wwood/Cov
 
 ### Why plume?
 
-Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmon](https://github.com/COMBINE-lab/salmon), but it offers a few engineering and methodological innovations that make it suitable for metagenomics:
+Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmon](https://github.com/COMBINE-lab/salmon) in spirit, but instead of quantifying transcripts from RNA-seq, it quantifies/calculates coverage for metagenomics. It offers a few engineering and methodological innovations that make it suitable for metagenomics:
 
 1. Faster all-to-all coverage calculation 
 2. Long-read aware pseudoalignment 
