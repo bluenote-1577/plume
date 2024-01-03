@@ -10,6 +10,7 @@ use std::sync::mpsc;
 use std::sync::mpsc::TryRecvError;
 use std::sync::{Arc, Mutex};
 use std::thread;
+use std::path::Path;
 
 pub fn quant(args: QuantArgs) {
     let level;
@@ -38,15 +39,29 @@ pub fn quant(args: QuantArgs) {
 
     let mut ref_index_files = vec![];
     let mut read_index_files = vec![];
+    let mut ref_index_files_detect = vec![];
+    let mut read_index_files_detect = vec![];
 
     for file in args.files.iter() {
         if file.ends_with(REF_IND_SUFFIX) {
             ref_index_files.push(file);
         } else if file.ends_with(READ_IND_SUFFIX) {
             read_index_files.push(file);
-        } else {
+        }
+//        } else if Path::new(file).with_extension(REF_IND_SUFFIX).exists(){
+//            ref_index_files_detect.push(format!("{}.{}",file, REF_IND_SUFFIX));
+//        } else if Path::new(file).with_extension(READ_IND_SUFFIX).exists(){
+//            read_index_files_detect.push(format!("{}.{}",file, READ_IND_SUFFIX));
+        else {
             warn!("{} file extension is not a plume index.", &file);
         }
+    }
+
+    for f in ref_index_files_detect.iter(){
+        ref_index_files.push(f);
+    }
+    for f in read_index_files_detect.iter(){
+        read_index_files.push(f);
     }
 
     //Parallelize this later? TODO. Not sure
@@ -87,7 +102,7 @@ pub fn quant(args: QuantArgs) {
         }
 
         log::info!("Quantification complete for {}", ref_index_file);
-        print!("Sequence_names");
+        print!("Genome_or_contigs");
         for read_index_file in read_index_files.iter() {
             print!("\t{}", read_index_file);
         }
@@ -157,7 +172,7 @@ fn pseudoalign_reads(
                 mapped = false;
             }
             if mapped {
-                if long && test_supp{
+                if long || test_supp{
                     let mut overlap_vecs: Vec<(usize, usize)> = vec![];
                     let max_count = vec_hit_map[0].1;
                     for (reference, count) in vec_hit_map.iter() {
@@ -198,7 +213,7 @@ fn pseudoalign_reads(
             }
             if mapped {
                 let mut lock = equiv_class_matrix.lock().unwrap();
-                if long && test_supp{
+                if long || test_supp{
                     let range = ref_hit_ranges[&equiv_class[0]];
                     let class_val = lock.entry(equiv_class).or_insert(0.);
                     *class_val += *len as f64 * (range.1 - range.0 + 1) as f64 / kmers.len() as f64;

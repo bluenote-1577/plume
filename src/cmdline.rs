@@ -1,7 +1,7 @@
 use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser)]
-#[clap(author, version, about = "TODO", arg_required_else_help = true, disable_help_subcommand = true)]
+#[clap(author, version, about = "Plume is a lightweight pseudoaligner for metagenomics, allowing for coverage/abundance calculation of reads against genomes or contigs.", arg_required_else_help = true, disable_help_subcommand = true)]
 pub struct Cli {
     #[clap(subcommand,)]
     pub mode: Mode,
@@ -9,9 +9,9 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Mode {
-    /// TODO
+    /// Index reads and genomes/contigs
     Index(IndexArgs),
-    /// TODO
+    /// Calculate coverage/relative abundance
     Quant(QuantArgs),
 }
 
@@ -44,7 +44,7 @@ pub struct IndexArgs {
     pub w: usize,
     #[clap(long, hidden=true, help_heading="ALGORITHM", help = "Use FracMinHash seeds")]
     pub fmh: bool,
-    #[clap(long, help_heading="ALGORITHM", help = "Use open syncmer seeds")]
+    #[clap(long, help_heading="ALGORITHM", help = "Use open syncmer seeds (default)")]
     pub window_sync: bool,
     #[clap(long, help_heading="ALGORITHM", help = "Use minimizer seeds")]
     pub minimizer: bool,
