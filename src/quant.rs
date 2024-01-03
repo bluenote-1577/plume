@@ -180,6 +180,9 @@ fn pseudoalign_reads(
                     let mut overlap_vecs: Vec<(usize, usize)> = vec![];
                     let max_count = vec_hit_map[0].1;
                     for (reference, count) in vec_hit_map.iter() {
+                        if count < &kmer_pass{
+                            break;
+                        }
                         let mut overlap = false;
                         let range = ref_hit_ranges[reference];
                         for old_range in overlap_vecs.iter() {
@@ -194,8 +197,8 @@ fn pseudoalign_reads(
                             overlap_vecs.push(ref_hit_ranges[reference]);
                         } else if *count == max_count {
                             equiv_class.push(*reference);
-                            overlap_vecs.push(ref_hit_ranges[reference]);
-                        } else if !overlap && count >= &kmer_pass{
+                            //overlap_vecs.push(ref_hit_ranges[reference]);
+                        } else if !overlap{
                             supp_alns.push(*reference);
                             overlap_vecs.push(ref_hit_ranges[reference]);
                         }
