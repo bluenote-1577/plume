@@ -68,6 +68,7 @@ pub fn quant(args: QuantArgs) {
     //the correct way to load things into memory.
     //Let's just load things one by one for now...
 
+    let mut first_ref = true;
     for ref_index_file in ref_index_files.iter(){
         log::info!("Loading index for {} ...", ref_index_file);
         let ref_index = load_and_decode(ref_index_file);
@@ -102,18 +103,21 @@ pub fn quant(args: QuantArgs) {
         }
 
         log::info!("Quantification complete for {}", ref_index_file);
-        print!("Genome_or_contigs");
-        for read_index_file in read_index_files.iter() {
-            print!("\t{}", read_index_file);
+        if first_ref{
+            print!("Reference_file\tGenome_or_contigs");
+            for read_index_file in read_index_files.iter() {
+                print!("\t{}", read_index_file);
+            }
+            println!("");
         }
-        println!("");
         for i in 0..result_mat.len() {
-            print!("{}", ref_index.contig_names[i].split(' ').collect::<Vec<_>>()[0]);
+            print!("{}\t{}", ref_index_file, ref_index.contig_names[i].split(' ').collect::<Vec<_>>()[0]);
             for j in 0..result_mat[i].len() {
                 print!("\t{:.4}", result_mat[i][j]);
             }
             println!("");
         }
+        first_ref = false;
     }
 }
 
