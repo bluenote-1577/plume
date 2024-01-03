@@ -51,6 +51,7 @@ pub struct ShadeRefIndex{
     pub inv_table: FxHashMap<Kmer,SmallVec<[u32;1]>>,
     pub file_name: String,
     pub contig_names: Vec<String>,
+    pub num_kmers_in_contigs: Vec<usize>,
     pub w: usize,
     pub k :usize,
     pub lens: Vec<usize>
@@ -62,6 +63,7 @@ pub struct ShadeRefIndexEncode{
     pub vec_table: Vec<(Kmer,SmallVec<[u32;1]>)>,
     pub file_name: String,
     pub contig_names: Vec<String>,
+    pub num_kmers_in_contigs: Vec<usize>,
     pub w: usize,
     pub k :usize,
     pub lens: Vec<usize>
@@ -82,7 +84,6 @@ pub struct RefSequenceIndex{
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 #[derive(Default, Clone)]
 pub struct ReadsIndex{
-    pub read_kmers: Vec<(Vec<Kmer>,u32)>,
     pub file_name: String,
     pub w: usize,
     pub k: usize,

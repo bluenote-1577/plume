@@ -7,3 +7,4 @@ pub const MINIMUM_COUNT_RATIO: f64 = 3.;
 pub const REF_IND_SUFFIX: &str = "plref";
 pub const READ_IND_SUFFIX: &str = "plreads";
 pub const LEN_SUPP_CUTOFF:usize  = 1000;
+pub const BATCH_SIZE_BASE:usize = 100_000_000;
