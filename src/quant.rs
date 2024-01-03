@@ -183,24 +183,26 @@ fn pseudoalign_reads(
                         if count < &kmer_pass{
                             break;
                         }
-                        let mut overlap = false;
-                        let range = ref_hit_ranges[reference];
-                        for old_range in overlap_vecs.iter() {
-                            if range.0 > old_range.1 || range.1 < old_range.0 {
-                            } else {
-                                overlap = true;
-                                break;
-                            }
-                        }
                         if last_count == 0 {
                             equiv_class.push(*reference);
                             overlap_vecs.push(ref_hit_ranges[reference]);
                         } else if *count == max_count {
                             equiv_class.push(*reference);
                             //overlap_vecs.push(ref_hit_ranges[reference]);
-                        } else if !overlap{
-                            supp_alns.push(*reference);
-                            overlap_vecs.push(ref_hit_ranges[reference]);
+                        } else{
+                            let mut overlap = false;
+                            let range = ref_hit_ranges[reference];
+                            for old_range in overlap_vecs.iter() {
+                                if range.0 > old_range.1 || range.1 < old_range.0 {
+                                } else {
+                                    overlap = true;
+                                    break;
+                                }
+                            }
+                            if !overlap{
+                                supp_alns.push(*reference);
+                                overlap_vecs.push(ref_hit_ranges[reference]);
+                            }
                         }
                         last_count = *count;
                     }
@@ -262,7 +264,7 @@ fn streaming_pseudoalign(args: &QuantArgs, read_index_file: &str, ref_index: &Sh
             let mut reads = read_batch(&mut reader, 100_000);
             while !reads.is_empty() {
                 match sender_clone.send(Some(reads)) {
-                    Ok(_) => reads = read_batch(&mut reader, 100_00),
+                    Ok(_) => reads = read_batch(&mut reader, 100_000),
                     Err(_) => break, // Receiver has dropped, exit loop
                 }
             }
