@@ -61,7 +61,7 @@ plume index -s reads1.fq reads2.fq
 ```sh
 # coverage
 plume quant contigs.fa.plref A_1.fq.paired.plreads > output.tsv
-plume quant contigs*.plref reads*.plreads -t 20 > all-to-all.tsv
+plume quant *.plref *.plreads -t 20 > all-to-all.tsv
 
 # relative (sequence) abundance
 plume quant -r *.plref *.plreads > abund.tsv
