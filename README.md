@@ -6,28 +6,20 @@ This software is in alpha. Perhaps even pre-alpha. It works, but it is poorly do
 
 ### What does plume do? 
 
-Plume is a fast, lightweight pseudoaligner for **calculating coverages/abundances** for metagenomic reads against **genomes/contigs**. 
+Plume is a fast, lightweight pseudoaligner for **calculating coverages/abundances** for metagenomic reads against **genomes/contigs**. Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmon](https://github.com/COMBINE-lab/salmon) in spirit, but instead of quantifying transcripts from RNA-seq, it quantifies/calculates coverage for metagenomics. 
 
 The inputs/outputs of plume are similar to [CoverM](https://github.com/wwood/CoverM), but plume is a new algorithm written from scratch. 
-
-### Why plume?
-
-Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmon](https://github.com/COMBINE-lab/salmon) in spirit, but instead of quantifying transcripts from RNA-seq, it quantifies/calculates coverage for metagenomics. It offers a few engineering and methodological innovations that make it suitable for metagenomics:
-
-1. Faster all-to-all coverage calculation 
-2. Long-read aware pseudoalignment 
-3. Optimized parameters for metagenomics
 
 #### Performance - speed
 
 * CoverM (with minimap2) took about **10 minutes (with 4 threads)** to quantify a metagenome against 180 genomes.
 * Plume took **2 minutes to index, but 20 seconds (with 4 threads)** to quantify the same metagenome.
 
-I estimate that plume ranges from 1-5x faster (one-to-one coverage calculation) to 10x faster (all-to-all) than minimap2 for coverage calculation; it will depend on how much mapping vs indexing you need. Performance will also change as I optimize/tweak.
+I estimate that plume ranges from 1-5x faster (one-to-one coverage calculation) to 10x faster (all-to-all) than minimap2 for coverage calculation; it will depend on how much mapping vs indexing you need. The performance will also change as I optimize/tweak.
 
 #### Performance - accuracy
 
-More results incoming. Preliminary visual results seems to show that it's comparable. I get similar results for binning human gut metagenomes. 
+The coverage is pretty concordant with CoverM (using minimap2) on genomes/contigs. I quickly tested plume for metagenomic binning coverage; the results were worse than BWA but passable. 
 
 ## Quick start
 
@@ -65,7 +57,6 @@ plume index -s reads1.fq reads2.fq
 ```sh
 # coverage
 plume quant contigs.fa.plref A_1.fq.paired.plreads > output.tsv
-plume quant *.plref *.plreads -t 20 > all-to-all.tsv
 
 # relative (sequence) abundance
 plume quant -r *.plref *.plreads > abund.tsv
@@ -81,7 +72,3 @@ temp.fa.plref	GG662017.1	0.0000	0.0000
 temp.fa.plref	GG662016.1	0.0000	0.3170
 temp.fa.plref	GG662015.1	0.0000	0.0000
 ```
-
-## Citation
-
-Forthcoming (eventually) 
