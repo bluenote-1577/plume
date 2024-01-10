@@ -8,8 +8,6 @@ This software is in alpha. Perhaps even pre-alpha. It works, but it is poorly do
 
 Plume is a fast, lightweight pseudoaligner for **calculating coverages/abundances** for metagenomic reads against **genomes/contigs**. Plume is similar to [kallisto](https://github.com/pachterlab/kallisto) or [salmon](https://github.com/COMBINE-lab/salmon) in spirit, but instead of quantifying transcripts from RNA-seq, it quantifies/calculates coverage for metagenomics. 
 
-The inputs/outputs of plume are similar to [CoverM](https://github.com/wwood/CoverM), but plume is a new algorithm written from scratch. 
-
 #### Performance - speed
 
 * CoverM (with minimap2) took about **10 minutes (with 4 threads)** to quantify a metagenome against 180 genomes.
@@ -19,7 +17,9 @@ I estimate that plume ranges from 1-5x faster (one-to-one coverage calculation) 
 
 #### Performance - accuracy
 
-The coverage is pretty concordant with CoverM (using minimap2) on genomes/contigs. I quickly tested plume for metagenomic binning coverage; the results were worse than BWA but passable. 
+The coverage is pretty concordant with CoverM (using minimap2) on genomes/contigs. 
+
+I tested plume for metagenomic binning; the results were worse than BWA (but passable). 
 
 ## Quick start
 
