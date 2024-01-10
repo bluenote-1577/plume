@@ -17,9 +17,9 @@ I estimate that plume ranges from 1-5x faster (one-to-one coverage calculation) 
 
 #### Performance - accuracy
 
-The coverage is pretty concordant with CoverM (using minimap2) on genomes/contigs. 
+The coverage is pretty concordant with CoverM (using minimap2) on genomes/contigs. I will be using it for research purposes when I want to quickly estimate abundance/coverage. 
 
-I tested plume for metagenomic binning; the results were worse than BWA (but passable). 
+I tested plume for metagenomic binning; the results were worse than BWA (but passable). I do not recommend using it for binning (yet). 
 
 ## Quick start
 
